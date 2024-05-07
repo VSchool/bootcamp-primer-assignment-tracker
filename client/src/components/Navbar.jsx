@@ -8,7 +8,7 @@ export const Navbar = () => {
 
     const handleLogin = () => loginWithRedirect({
         authorizationParams: {
-            redirect_uri: location.origin + '/profile'
+            redirect_uri: location.origin + '/assignments'
         }
     })
 
