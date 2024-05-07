@@ -1,6 +1,6 @@
 // See https://containers.dev/implementors/json_reference/ for configuration reference
 {
-	"name": "WE Template",
+	"name": "Bootcamp Primer Assignment Tracker",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
