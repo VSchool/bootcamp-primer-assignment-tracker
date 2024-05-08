@@ -8,11 +8,10 @@ const { errorHandler, logger } = require('./middleware/log');
 
 const server = ex();
 
+server.use(ex.json());
 server.use(logger)
 server.use(enableCors)
 server.use(ex.static(path.resolve(__dirname, 'client', 'dist')))
-server.use(ex.json());
-server.use(ex.urlencoded({ extended: true }));
 
 server.use('/api', validateAuthToken, apiRouter)
 server.get('*', staticSiteRouter)

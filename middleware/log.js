@@ -2,7 +2,7 @@
  * Log basic info about the request to stdout
  */
 const logger = (req, res, next) => {
-    console.log(req.method, req.originalUrl, req.headers.referer)
+    console.log(req.method, req.originalUrl, req.headers.referer, req.headers.body)
     next();
 }
 

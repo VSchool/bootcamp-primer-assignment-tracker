@@ -4,7 +4,7 @@ export const http = {
             ...options,
             headers: {
                 authorization: `Bearer ${accessToken}`,
-                ...options
+                ...options.headers
             }
         }).then(res => res.json())
     }
