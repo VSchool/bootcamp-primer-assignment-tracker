@@ -48,7 +48,7 @@ export const useLoadingApi = () => {
     }
 }
 
-export const useRequestHandler = (fn) => {
+export const useRequestHandlerFactory = fn => () => {
     const { loading, error, setLoading, setError } = useLoadingApi();
 
     const handler = async (...args) => {
@@ -77,15 +77,15 @@ export const useAssignmentsApi = () => {
     const [submissions, setSubmissions] = useState([]);
     const authClient = useHttpAuthClient();
 
-    const getAssignments = useRequestHandler(async () => {
+    const getAssignments = useRequestHandlerFactory(async () => {
         const { results: assignmentsData, success: assignmentsSuccess } = await authClient.get('/api/assignments');
         const { results: submissionsData, success: submissionsSuccess } = await authClient.get('/api/submissions');
         if (!assignmentsSuccess || !submissionsSuccess) throw Error('Failed to get assignments or submissions')
         setAssignments(assignmentsData);
         setSubmissions(submissionsData);
-    })
+    })()
 
-    const createSubmission = useRequestHandler(async (submission) => {
+    const createSubmissionFactory = useRequestHandlerFactory(async (submission) => {
         const { results: submissionData, success } = await authClient.post('/api/submissions', {
             body: { submission }
         })
@@ -93,18 +93,10 @@ export const useAssignmentsApi = () => {
         setSubmissions([...submissions, submissionData])
     })
 
-    const deleteSubmission = useRequestHandler(async (id) => {
+    const deleteSubmissionFactory = useRequestHandlerFactory(async (id) => {
         const { success } = await authClient.delete(`/api/submissions/${id}`)
         if (!success) throw Error('Failed to delete submission')
         setSubmissions(prev => prev.filter(submission => submission._id !== id))
-    })
-
-    const editSubmission = useRequestHandler(async (id, submission) => {
-        const { success, results } = await authClient.put(`/api/submissions/${id}`, {
-            body: { submission }
-        })
-        if (!success) throw Error('Failed to edit submission')
-            setSubmissions(prev => prev.map(sub => sub._id === id ? results : sub))
     })
 
     const assignmentsWithSubmissions = assignments.map(assignment => {
@@ -132,9 +124,8 @@ export const useAssignmentsApi = () => {
     return {
         assignmentsWithSubmissions,
         getAssignments,
-        createSubmission,
-        deleteSubmission,
-        editSubmission,
+        createSubmissionFactory,
+        deleteSubmissionFactory,
         progress,
         completed,
         accordion

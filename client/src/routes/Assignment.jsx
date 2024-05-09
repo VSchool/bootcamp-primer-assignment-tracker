@@ -3,10 +3,12 @@ import { SubmissionForm } from "./SubmissionForm"
 
 export const Assignment = ({ assignment }) => {
 
-    const { createSubmission, deleteSubmission, accordion } = useAssignmentsContext()
+    const { createSubmissionFactory, deleteSubmissionFactory, accordion } = useAssignmentsContext()
+    const handleDelete = deleteSubmissionFactory();
+    const createSubmission = createSubmissionFactory();
     const onSubmit = (submission) => {
-        toggleIsExpanded();
         createSubmission.handler(submission)
+            .then(toggleIsExpanded)
     }
     const toggleIsExpanded = () => accordion.toggleIsExpanded(assignment.identifier);
     const isExpanded = accordion.isExpanded(assignment.identifier);
@@ -15,7 +17,7 @@ export const Assignment = ({ assignment }) => {
         <li>
             {(() => {
                 if (assignment.submitted) return (
-                    <p>{assignment.name} <span>[Submitted]</span> <button onClick={() => deleteSubmission.handler(assignment.submission._id)}>Redo</button></p>
+                    <p>{assignment.name} <span>[Submitted]</span> <button onClick={() => handleDelete.handler(assignment.submission._id)} disabled={handleDelete.loading}>Redo</button></p>
                 )
                 if (assignment.isLocked) return <p>{assignment.name} <button disabled>Locked</button></p>
                 return (

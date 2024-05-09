@@ -1,5 +1,5 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-import { useAccordion, useAssignmentsContext } from "../hooks";
+import { useAssignmentsContext } from "../hooks";
 import { Assignment } from "./Assignment";
 import { useState } from "react";
 
@@ -7,7 +7,6 @@ export const Assignments = withAuthenticationRequired(() => {
     const { user } = useAuth0();
     const { assignmentsWithSubmissions, getAssignments, progress, completed } = useAssignmentsContext();
     const [showSubmitted, setShowSubmitted] = useState(false);
-
 
     return (
         <div>
