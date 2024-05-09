@@ -1,18 +1,17 @@
-import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useAssignmentsContext } from "../hooks";
-import { Assignment } from "./Assignment";
+import { Assignment } from "../components/Assignment";
 import { useState } from "react";
 
 export const Assignments = withAuthenticationRequired(() => {
-    const { user } = useAuth0();
     const { assignmentsWithSubmissions, getAssignments, progress, completed } = useAssignmentsContext();
     const [showSubmitted, setShowSubmitted] = useState(false);
 
     return (
         <div>
-            <h3>Welcome, {user.name}</h3>
+            <h1>Assignments Overview</h1>
             <div>
-                <p>{progress.completed}/{progress.total} ({progress.percentage.toFixed(0)}% complete)</p>
+                <p>{progress.completed} out of {progress.total} completed ({progress.percentage.toFixed(0)}%)</p>
                 <button onClick={() => setShowSubmitted(prev => !prev)}>{showSubmitted ? "Back to Assignments" : "Review Past Submissions"}</button>
             </div>
             <div>

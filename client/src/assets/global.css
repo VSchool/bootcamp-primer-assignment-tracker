@@ -1,3 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+
+button {
+    background-color: white;
+    border: 1px solid black;
+    padding: 4px 8px;
+}
+
+button:hover:not([disabled]) {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.accordion .accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.accordion .accordion-header.--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.accordion .accordion-body {
+    display: none;
+}
+
+.accordion .accordion-body.--open {
+    display: block
 }

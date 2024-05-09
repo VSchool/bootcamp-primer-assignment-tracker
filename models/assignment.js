@@ -4,7 +4,8 @@ const AssignmentSchema = new mg.Schema({
     name: String,
     url: String,
     identifier: { type: String, unique: true },
-    prerequisite: String
+    prerequisite: String,
+    sortKey: {type: Number, required: true}
 });
 
 const AssignmentModel = mg.model('Assignment', AssignmentSchema);

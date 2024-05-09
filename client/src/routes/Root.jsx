@@ -16,6 +16,9 @@ export const Root = () => {
             <section>
                 <Outlet />
             </section>
+            <footer>
+                <a href="https://www.flaticon.com/free-icons/arrow" title="arrow icons">Icons by Dave Gandy - Flaticon</a>
+            </footer>
         </div>
     )
 }
