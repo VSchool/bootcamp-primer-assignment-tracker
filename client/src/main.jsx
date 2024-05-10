@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouteProvider } from './providers/RouterProvider'
 import { AuthProvider } from './providers/AuthProvider';
 
-import './assets/global.css'
+import './assets/css/global.css'
 import { AssignmentsProvider } from './providers/AssignmentsProvider';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

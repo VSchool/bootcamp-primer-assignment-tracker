@@ -13,12 +13,9 @@ export const Root = () => {
     return (
         <div>
             <Navbar />
-            <section>
+            <section className="app-outlet">
                 <Outlet />
             </section>
-            <footer>
-                <a href="https://www.flaticon.com/free-icons/arrow" title="arrow icons">Icons by Dave Gandy - Flaticon</a>
-            </footer>
         </div>
     )
 }

@@ -4,15 +4,20 @@ import { Assignment } from "../components/Assignment";
 import { useState } from "react";
 
 export const Assignments = withAuthenticationRequired(() => {
-    const { assignmentsWithSubmissions, getAssignments, progress, completed } = useAssignmentsContext();
+    const { assignmentsWithSubmissions, getAssignments, progress, completed, pendingApproval, accordion } = useAssignmentsContext();
     const [showSubmitted, setShowSubmitted] = useState(false);
+
+    const handleReviewSubmissions = () => {
+        setShowSubmitted(prev => !prev)
+        accordion.reset()
+    }
 
     return (
         <div>
-            <h1>Assignments Overview</h1>
+            <h1>{showSubmitted ? "Submitted Assignments" : "Assignments"}</h1>
             <div>
-                <p>{progress.completed} out of {progress.total} completed ({progress.percentage.toFixed(0)}%)</p>
-                <button onClick={() => setShowSubmitted(prev => !prev)}>{showSubmitted ? "Back to Assignments" : "Review Past Submissions"}</button>
+                <p><b>{progress.completed}</b> out of <b>{progress.total}</b> completed ({progress.percentage.toFixed(0)}%)</p>
+                <button onClick={handleReviewSubmissions}>{showSubmitted ? "Back to Assignments" : "Review Past Submissions"}</button>
             </div>
             <div>
                 {(() => {
@@ -31,6 +36,7 @@ export const Assignments = withAuthenticationRequired(() => {
                         </ul>
                     )
                     if (completed) return <p>Congratulations! You have completed the course. Please visit <a href="https://vschool.io">V School</a> to view more educational opportunities in tech.</p>
+                    if (pendingApproval) return <p>Nice work! All assignments have been submitted. Please be patient while your teacher reviews your submissions.</p>
                     return (
                         <ul>
                             {assignmentsWithSubmissions

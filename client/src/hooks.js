@@ -117,7 +117,8 @@ export const useAssignmentsApi = () => {
         total: assignments.length
     }
 
-    const completed = progress.completed === progress.total
+    const completed = progress.completed === progress.total && submissions.every(sub => sub.approved)
+    const pendingApproval = progress.completed === progress.total && submissions.some(sub => !sub.approved)
 
     const accordion = useAccordion()
 
@@ -128,6 +129,7 @@ export const useAssignmentsApi = () => {
         deleteSubmissionFactory,
         progress,
         completed,
+        pendingApproval,
         accordion
     }
 }

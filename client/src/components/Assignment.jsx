@@ -1,6 +1,6 @@
 import { Icon } from "./Icon";
 import { useAssignmentsContext } from "../hooks"
-import { SubmissionForm } from "../routes/SubmissionForm"
+import { SubmissionForm } from "./SubmissionForm"
 import { Accordion } from "./Accordion";
 
 export const Assignment = ({ assignment }) => {
@@ -19,12 +19,23 @@ export const Assignment = ({ assignment }) => {
         <li>
             {(() => {
                 if (assignment.submitted) return (
-                    <p>{assignment.name} <span>[Submitted][{assignment.approved ? 'Approved' : 'Pending Approval'}]</span> <button onClick={() => handleDelete.handler(assignment.submission._id)} disabled={handleDelete.loading}>Redo</button></p>
+                    <Accordion
+                        open={isExpanded}
+                        title={assignment.name}
+                        icon={assignment.submission.approved ? "success" : "pending"}
+                        toggleIsExpanded={toggleIsExpanded}
+                    >
+                        <div className="submission-details">
+                            <span className={`submission-status ${assignment.submission.approved ? '--approved' : '--pending'}`}>{assignment.submission.approved ? "Approved!" : "Pending Review"}</span>
+                            <button onClick={() => handleDelete.handler(assignment.submission._id)} disabled={handleDelete.loading || assignment.submission.approved}>{handleDelete.loading ? 'Removing...' : 'Redo'}</button>
+                        </div>
+                    </Accordion>
                 )
                 return (
                     <Accordion
                         open={isExpanded}
-                        heading={<p>{assignment.isLocked ? <Icon name="lock" /> : <Icon name="unlock" />} {assignment.name}</p>}
+                        title={assignment.name}
+                        icon={assignment.isLocked ? "lock" : "unlock"}
                         toggleIsExpanded={toggleIsExpanded}
                         disabled={assignment.isLocked}
                     >

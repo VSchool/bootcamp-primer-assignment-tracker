@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --accent: #9854CC;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --success: rgb(81, 190, 81);
+    --pending: rgb(245, 208, 72);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    margin: 0;
+}
+
+a {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: white;
+    border: 1px solid black;
+    padding: 4px 8px;
+}
+
+button:hover:not([disabled]) {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+input {
+    padding: 4px 8px;
+    border: none;
+    border-bottom: 1px solid var(--shadow);
+    outline: none;
+    font-weight: 200;
+}
+
+input:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+input:focus {
+    border-bottom: 1px solid var(--accent);
+}
+
+.app-outlet {
+    padding: 0 16px;
+}
+
+.text-block {
+    max-width: 600px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 16px;
+    box-shadow: 0 8px 8px 0 var(--shadow);
+}
+
+.navbar .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-with-label {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.accordion {
+    padding-bottom: 16px;
+}
+
+.accordion .accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    padding-bottom: 8px;
+    box-shadow: 0 .5px 0 var(--shadow);
+    width: fit-content;
+}
+
+.accordion .accordion-header:hover {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.accordion .accordion-header.--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.accordion .accordion-header-title {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.accordion .accordion-body {
+    padding-top: 8px;
+    display: none;
+    padding-left: 20px;
+}
+
+.accordion .accordion-body.--open {
+    display: block
+}
+
+.submission-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.submission-details .submission-status {
+    padding: 0 4px;
+}
+
+.submission-details .submission-status.--pending {
+    background-color: var(--pending);
+}
+
+.submission-details .submission-status.--approved {
+    background-color: var(--success);
+}
+
+.submission-form {
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.submission-form-body {
+    display: flex;
+    gap: 16px;
+}
+
+.submission-form-body input {
+    width: 100%
+}
