@@ -1,12 +1,10 @@
-import { useAuth0 } from "@auth0/auth0-react"
 import { Link } from "react-router-dom";
 import { useProfileContext } from "../hooks";
 
 
 
 export const Navbar = () => {
-    const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-    const { userMetadata } = useProfileContext()
+    const { loginWithRedirect, logout, isAuthenticated, user } = useProfileContext();
 
     const handleLogin = () => loginWithRedirect({
         authorizationParams: {
@@ -38,7 +36,7 @@ export const Navbar = () => {
                 })()}
             </div>
             <div className="user">
-                <b>{userMetadata.first_name + ' ' + userMetadata.last_name}</b>
+                {user && user.profile && <p>{user.profile.fullName}</p>}
                 {isAuthenticated && <img src={user.picture} alt="avatar" width={32} height={32} />}
             </div>
         </nav>

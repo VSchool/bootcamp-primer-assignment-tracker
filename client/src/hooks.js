@@ -74,23 +74,24 @@ export const useRequestHandlerFactory = fn => () => {
 
 export const useProfileApi = () => {
     const baseUrl = `https://${import.meta.env.VITE_AUTH0_DOMAIN}/api/v2`;
-    const { user } = useAuth0();
-    const [userMetadata, setUserMetadata] = useState({ first_name: "", last_name: "" });
-    const mgtmAuthClient = useHttpAuthClient({
-        authorizationParams: {
-            audience: baseUrl + '/',
-            scope: "read:current_user",
-        }
+    const authApi = useAuth0();
+    const [profile, setProfile] = useState(null);
+    const authClient = useHttpAuthClient();
+    const getUserProfileFactory = useRequestHandlerFactory(async () => {
+        const { user_metadata } = await authClient.get(`${baseUrl}/users/${authApi.user.sub}`);
+        setProfile(user_metadata);
     });
 
-    const getUserMetadata = useRequestHandlerFactory(async () => {
-        const { user_metadata } = await mgtmAuthClient.get(`${baseUrl}/users/${user.sub}`);
-        setUserMetadata(user_metadata);
-    })()
-
     return {
-        userMetadata,
-        getUserMetadata
+        ...authApi,
+        user: {
+            ...authApi.user,
+            profile: {
+                ...profile,
+                fullName: profile ? `${profile.first_name} ${profile.last_name}` : ''
+            }
+        },
+        getUserProfileFactory
     }
 
 }

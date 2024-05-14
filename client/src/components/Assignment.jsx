@@ -28,10 +28,12 @@ export const Assignment = ({ assignment }) => {
                         icon={assignment.submission.approved ? "success" : "pending"}
                         toggleIsExpanded={toggleIsExpanded}
                     >
-                        <div className="submission-details">
-                            <span onClick={handleSubmissionStatusClick} className={`submission-status ${assignment.submission.approved ? '--approved' : '--pending'}`}><Icon name="link" />{assignment.submission.approved ? "Approved!" : "Pending Review"}</span>
-                            <button onClick={() => handleDelete.handler(assignment.submission._id)} disabled={handleDelete.loading || assignment.submission.approved}>{handleDelete.loading ? "Removing..." : 'Redo'}</button>
-                        </div>
+                        {() => (
+                            <div className="submission-details">
+                                <span onClick={handleSubmissionStatusClick} className={`submission-status ${assignment.submission.approved ? '--approved' : '--pending'}`}><Icon name="link" />{assignment.submission.approved ? "Approved!" : "Pending Review"}</span>
+                                <button onClick={() => handleDelete.handler(assignment.submission._id)} disabled={handleDelete.loading || assignment.submission.approved}>{handleDelete.loading ? "Removing..." : 'Redo'}</button>
+                            </div>
+                        )}
                     </Accordion>
                 )
                 return (
@@ -42,15 +44,17 @@ export const Assignment = ({ assignment }) => {
                         toggleIsExpanded={toggleIsExpanded}
                         disabled={assignment.isLocked}
                     >
-                        <div className="assignment-details">
-                            <SubmissionForm
-                                assignment={assignment}
-                                onSubmit={onSubmit}
-                                submitting={createSubmission.loading}
-                                error={createSubmission.error}
-                            />
-                            <iframe src={assignment.url} width={"100%"} height={"500px"}></iframe>
-                        </div>
+                        {() => (
+                            <div className="assignment-details">
+                                <SubmissionForm
+                                    assignment={assignment}
+                                    onSubmit={onSubmit}
+                                    submitting={createSubmission.loading}
+                                    error={createSubmission.error}
+                                />
+                                <iframe src={assignment.url} width={"100%"} height={"500px"}></iframe>
+                            </div>
+                        )}
                     </Accordion>
                 )
             })()}

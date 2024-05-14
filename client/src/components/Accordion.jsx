@@ -11,7 +11,7 @@ export const Accordion = ({ children, title, open, toggleIsExpanded, disabled, i
                 <Icon name={open ? "up" : "down"} />
             </div>
             <div className={`accordion-body ${open ? '--open' : ''}`}>
-                {children}
+                {open && children()}
             </div>
         </div>
     )
