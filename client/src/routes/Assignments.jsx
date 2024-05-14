@@ -2,10 +2,15 @@ import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useAssignmentsContext } from "../hooks";
 import { Assignment } from "../components/Assignment";
 import { useState } from "react";
+import { LoadingIndicator } from "../components/LoadingIndicator";
 
 export const Assignments = withAuthenticationRequired(() => {
     const { assignmentsWithSubmissions, getAssignments, progress, completed, pendingApproval, accordion } = useAssignmentsContext();
     const [showSubmitted, setShowSubmitted] = useState(false);
+    const submittedAssignments = assignmentsWithSubmissions
+        .filter(assignment => !!assignment.submitted);
+    const unsubmittedAssignments = assignmentsWithSubmissions
+        .filter(assignment => !assignment.submitted)
 
     const handleReviewSubmissions = () => {
         setShowSubmitted(prev => !prev)
@@ -21,12 +26,12 @@ export const Assignments = withAuthenticationRequired(() => {
             </div>
             <div>
                 {(() => {
-                    if (getAssignments.loading) return <p>Loading...</p>
+                    if (getAssignments.loading) return <div className="loading-list"><LoadingIndicator /><p>Loading Assignments...</p></div>
                     if (getAssignments.error) return <p>There was a problem loading assignment data, please try again</p>
                     if (showSubmitted) return (
-                        <ul>
-                            {assignmentsWithSubmissions
-                                .filter(assignment => !!assignment.submitted)
+                        <ul className="list">
+                            {!submittedAssignments.length && <p>No assignments submitted yet</p>}
+                            {submittedAssignments
                                 .map((assignment) => (
                                     <Assignment
                                         key={assignment._id}
@@ -38,9 +43,8 @@ export const Assignments = withAuthenticationRequired(() => {
                     if (completed) return <p>Congratulations! You have completed the course. Please visit <a href="https://vschool.io">V School</a> to view more educational opportunities in tech.</p>
                     if (pendingApproval) return <p>Nice work! All assignments have been submitted. Please be patient while your teacher reviews your submissions.</p>
                     return (
-                        <ul>
-                            {assignmentsWithSubmissions
-                                .filter(assignment => !assignment.submitted)
+                        <ul className="list">
+                            {unsubmittedAssignments
                                 .map((assignment) => (
                                     <Assignment
                                         key={assignment._id}

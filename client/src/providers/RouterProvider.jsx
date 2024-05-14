@@ -6,6 +6,9 @@ import { Assignments } from '../routes/Assignments';
 import { Root } from "../routes/Root";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Home } from "../routes/Home";
+import { useProfileContext } from "../hooks";
+import { useEffect } from "react";
+import { LoadingIndicator } from "../components/LoadingIndicator";
 
 const router = createBrowserRouter([
   {
@@ -25,8 +28,15 @@ const router = createBrowserRouter([
 ])
 
 export const RouteProvider = () => {
-  const { isLoading } = useAuth0();
-  if (isLoading) return <div>Loading...</div>
+  const { isLoading, user } = useAuth0();
+  const { getUserMetadata } = useProfileContext();
+
+  useEffect(() => {
+    if (!user) return;
+    getUserMetadata.handler()
+  }, [user])
+
+  if (isLoading || getUserMetadata.loading) return <div className="loading-page"><LoadingIndicator /><p>Loading profile information...</p></div>
   return (
     <ReactRouterProvider router={router} />
   )

@@ -5,13 +5,16 @@ import { AuthProvider } from './providers/AuthProvider';
 
 import './assets/css/global.css'
 import { AssignmentsProvider } from './providers/AssignmentsProvider';
+import { ProfileProvider } from './providers/ProfileProvider';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <AssignmentsProvider>
-        <RouteProvider />
-      </AssignmentsProvider>
+      <ProfileProvider>
+        <AssignmentsProvider>
+          <RouteProvider />
+        </AssignmentsProvider>
+      </ProfileProvider>
     </AuthProvider>
   </React.StrictMode>
 )

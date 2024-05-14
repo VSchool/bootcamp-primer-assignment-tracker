@@ -15,6 +15,8 @@ export const Icon = ({ name, size = 16, label }) => {
                 return new URL('../assets/icons/success.png', import.meta.url).href
             case "pending":
                 return new URL('../assets/icons/pending.png', import.meta.url).href
+            case "link":
+                return new URL('../assets/icons/link.png', import.meta.url).href
             default:
                 throw Error(`Invalid icon name: ${name}`)
         }

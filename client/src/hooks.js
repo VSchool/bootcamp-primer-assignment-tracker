@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
 import { http } from "./http";
 import { useAuth0 } from "@auth0/auth0-react";
-import { AssignmentsContext } from "./contexts";
+import { AssignmentsContext, ProfileContext } from "./contexts";
 
 
-export const useHttpAuthClient = () => {
+export const useHttpAuthClient = (tokenOpts) => {
     const { getAccessTokenSilently } = useAuth0();
 
     const handler = async (url, options) => {
-        const accessToken = await getAccessTokenSilently();
+        const accessToken = await getAccessTokenSilently(tokenOpts);
         return http.request(accessToken)(url, options)
     };
 
@@ -70,6 +70,29 @@ export const useRequestHandlerFactory = fn => () => {
         error,
         loading
     }
+}
+
+export const useProfileApi = () => {
+    const baseUrl = `https://${import.meta.env.VITE_AUTH0_DOMAIN}/api/v2`;
+    const { user } = useAuth0();
+    const [userMetadata, setUserMetadata] = useState({ first_name: "", last_name: "" });
+    const mgtmAuthClient = useHttpAuthClient({
+        authorizationParams: {
+            audience: baseUrl + '/',
+            scope: "read:current_user",
+        }
+    });
+
+    const getUserMetadata = useRequestHandlerFactory(async () => {
+        const { user_metadata } = await mgtmAuthClient.get(`${baseUrl}/users/${user.sub}`);
+        setUserMetadata(user_metadata);
+    })()
+
+    return {
+        userMetadata,
+        getUserMetadata
+    }
+
 }
 
 export const useAssignmentsApi = () => {
@@ -134,8 +157,8 @@ export const useAssignmentsApi = () => {
     }
 }
 
-
 export const useAssignmentsContext = () => useContext(AssignmentsContext)
+export const useProfileContext = () => useContext(ProfileContext)
 
 export const useAccordion = () => {
     const [accordion, setAccordion] = useState({})
