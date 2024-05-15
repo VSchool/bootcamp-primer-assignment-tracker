@@ -61,6 +61,14 @@ input:focus {
     border-bottom: 1px solid var(--accent);
 }
 
+.typography.typography-sm {
+    font-size: 12px;
+}
+
+.typography.typography-error {
+    color: #cc0000;
+}
+
 .app-outlet {
     position: relative;
     top: 72px;
@@ -75,7 +83,7 @@ input:focus {
     position: fixed;
     top: 0;
     z-index: 100;
-    background:white;
+    background: white;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -149,7 +157,8 @@ input:focus {
 
 .submission-details {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    max-width: 200px;
     gap: 1rem;
 }
 
@@ -157,6 +166,7 @@ input:focus {
     padding: 2px 6px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 4px;
 }
 
@@ -205,6 +215,13 @@ input:focus {
     height: 100vh;
 }
 
+.error-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .loading-list {
     display: flex;
     flex-direction: column;
@@ -237,5 +254,11 @@ input:focus {
 @media screen and (min-width: 600px) {
     .navbar .user {
         display: flex;
+    }
+
+    .submission-details {
+        flex-direction: row;
+        align-items: center;
+        max-width: fit-content;
     }
 }

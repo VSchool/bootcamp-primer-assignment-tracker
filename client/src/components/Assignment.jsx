@@ -32,6 +32,7 @@ export const Assignment = ({ assignment }) => {
                             <div className="submission-details">
                                 <span onClick={handleSubmissionStatusClick} className={`submission-status ${assignment.submission.approved ? '--approved' : '--pending'}`}><Icon name="link" />{assignment.submission.approved ? "Approved!" : "Pending Review"}</span>
                                 <button onClick={() => handleDelete.handler(assignment.submission._id)} disabled={handleDelete.loading || assignment.submission.approved}>{handleDelete.loading ? "Removing..." : 'Redo'}</button>
+                                {handleDelete.error && <span className="typography typography-error typography-sm">There was an error during submission</span>}                 
                             </div>
                         )}
                     </Accordion>

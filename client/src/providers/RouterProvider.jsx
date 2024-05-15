@@ -27,7 +27,7 @@ const router = createBrowserRouter([
 ])
 
 export const RouteProvider = () => {
-  const { getUserProfileFactory, user, isLoading } = useProfileContext();
+  const { getUserProfileFactory, user, isLoading, error } = useProfileContext();
   const getUserProfile = getUserProfileFactory();
 
   useEffect(() => {
@@ -35,7 +35,17 @@ export const RouteProvider = () => {
     if (user.sub && !user.profile.fullName && !getUserProfile.error) getUserProfile.handler()
   }, [user, getUserProfile])
 
-  if (isLoading || getUserProfile.loading) return <div className="loading-page"><LoadingIndicator /><p>Loading profile information...</p></div>
+  if (isLoading || getUserProfile.loading) return (
+    <div className="loading-page"><LoadingIndicator />
+      <p>Loading profile information...</p>
+    </div>
+  )
+  if (error || getUserProfile.error) return (
+    <div className="error-page">
+      <p className="typography typography-error">There was a problem logging in.</p>
+      <button onClick={() => window.location.reload()}>Try again</button>
+    </div>
+  )
   return (
     <ReactRouterProvider router={router} />
   )

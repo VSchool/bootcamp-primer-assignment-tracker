@@ -21,7 +21,7 @@ export const SubmissionForm = ({ assignment, onSubmit, submitting, error }) => {
                 <input id={'loom-link-' + assignment._id} type="url" value={link} onChange={handleChange} placeholder="e.g. https://www.loom.com/share/<id>" required />
                 <button type='submit' disabled={submitting}>{submitting ? 'Submitting...' : 'Submit'}</button>
             </div>
-            {error && <p>There was an problem submitting your assignment, please try again</p>}
+            {error && <p className="typography typography-error typography-sm">There was a problem submitting your assignment, please try again</p>}
         </form>
     )
 }
