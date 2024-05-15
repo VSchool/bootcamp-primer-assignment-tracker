@@ -1,5 +1,6 @@
 const ex = require('express');
 const { getAllSubmissionsByUser, createSubmission, deleteSubmission, updateSubmission, getApprovedSubmissions, getSubmittedSubmissions } = require('../services/submission');
+const { setUserProfile } = require('../middleware/auth');
 
 const submissionRouter = ex.Router();
 
@@ -36,9 +37,9 @@ submissionRouter.get('/submitted', async (req, res, next) => {
     }
 })
 
-submissionRouter.post('/', async (req, res, next) => {
+submissionRouter.post('/', setUserProfile, async (req, res, next) => {
     try {
-        const results = await createSubmission({ ...req.body.submission, user: req.auth.payload.sub });
+        const results = await createSubmission({ ...req.body.submission, user: req.auth.profile });
         res.status(200).send({ success: true, results })
     } catch (err) {
         console.error(err)

@@ -1,5 +1,6 @@
 const { auth } = require('express-oauth2-jwt-bearer');
 const cors = require('cors');
+const { getUserProfile } = require('../services/user');
 
 /**
  * Authenticates incoming JWT token from client. Creates a `req.auth` object upon success.
@@ -9,6 +10,12 @@ const validateAuthToken = auth({
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
     tokenSigningAlg: 'RS256',
 });
+
+const setUserProfile = async (req, res, next) => {
+    if(!req.auth) next(Error('Unauthorized'))
+    req.auth.profile = await getUserProfile(req.auth.payload.sub);
+    next();
+}
 
 /**
  * Enforces the authenticated request that it contains the provided permissions.
@@ -31,6 +38,7 @@ const enableCors = cors({ origin: [...process.env.CORS_WHITELIST.split(','), pro
 
 module.exports = {
     validateAuthToken,
+    setUserProfile,
     allow,
     enableCors,
 }
