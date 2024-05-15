@@ -8,7 +8,8 @@ export const Assignments = withAuthenticationRequired(() => {
     const { assignmentsWithSubmissions, getAssignments, progress, completed, pendingApproval, accordion } = useAssignmentsContext();
     const [showSubmitted, setShowSubmitted] = useState(false);
     const submittedAssignments = assignmentsWithSubmissions
-        .filter(assignment => !!assignment.submitted);
+        .filter(assignment => !!assignment.submitted)
+        .sort((a, b) => new Date(b.submission.createdAt) - new Date(a.submission.createdAt));
     const unsubmittedAssignments = assignmentsWithSubmissions
         .filter(assignment => !assignment.submitted)
 
@@ -27,7 +28,7 @@ export const Assignments = withAuthenticationRequired(() => {
             <div>
                 {(() => {
                     if (getAssignments.loading) return <div className="loading-list"><LoadingIndicator /><p>Loading Assignments...</p></div>
-                    if (getAssignments.error) return <p>There was a problem loading assignment data, please try again</p>
+                    if (getAssignments.error) return <p className="typography typography-error typography-sm">There was a problem loading assignment data, please try again</p>
                     if (showSubmitted) return (
                         <ul className="list">
                             {!submittedAssignments.length && <p>No assignments submitted yet</p>}

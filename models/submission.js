@@ -5,6 +5,8 @@ const SubmissionSchema = new mg.Schema({
     user: { type: String, required: true },
     link: { type: String, required: true },
     approved: { type: Boolean, default: false },
+}, {
+    timestamps: true
 });
 
 const SubmissionModel = mg.model('Submission', SubmissionSchema);
