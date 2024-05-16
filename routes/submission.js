@@ -15,28 +15,6 @@ submissionRouter.get('/', async (req, res, next) => {
     }
 })
 
-submissionRouter.get('/approved', async (req, res, next) => {
-    try {
-        const results = await getApprovedSubmissions();
-        res.status(200).send({ success: true, results })
-    } catch (err) {
-        console.error(err)
-        res.status(500)
-        next(err.message)
-    }
-})
-
-submissionRouter.get('/submitted', async (req, res, next) => {
-    try {
-        const results = await getSubmittedSubmissions();
-        res.status(200).send({ success: true, results })
-    } catch (err) {
-        console.error(err)
-        res.status(500)
-        next(err.message)
-    }
-})
-
 submissionRouter.post('/', setUserProfile, async (req, res, next) => {
     try {
         const results = await createSubmission({ ...req.body.submission, user: req.auth.profile });
